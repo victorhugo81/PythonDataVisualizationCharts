@@ -8,7 +8,7 @@ from pathlib import Path
 
 def load_data():
     """Load data from CSV file."""
-    CSV_FILE = Path("data") / "sales_data.csv"
+    CSV_FILE = Path("data") / "monthly_sales.csv"
     
     # Check if file exists
     if not CSV_FILE.exists():
@@ -52,6 +52,13 @@ def main():
     plt.ylabel("Sales")
     plt.grid(axis="y", linestyle="--", alpha=0.7)
     plt.tight_layout()
+
+    # Save the figure to output folder
+    OUTPUT_FILE = Path("output") / "sales_performance.png"
+    plt.savefig(OUTPUT_FILE, dpi=300, bbox_inches='tight')
+    print(f"Chart saved to: {OUTPUT_FILE}")
+
+    # Show chart
     plt.show()
 
 if __name__ == "__main__":

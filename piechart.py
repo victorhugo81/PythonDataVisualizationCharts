@@ -65,8 +65,10 @@ def main():
     # Make sure the pie chart stays circular
     plt.axis('equal')
     
-    # Save the figure
-    plt.savefig('sales_distribution.png', dpi=300, bbox_inches='tight')
+    # Save the figure to output folder
+    OUTPUT_FILE = Path("output") / "sales_distribution.png"
+    plt.savefig(OUTPUT_FILE, dpi=300, bbox_inches='tight')
+    print(f"Chart saved to: {OUTPUT_FILE}")
     
     # Show the plot
     plt.show()
