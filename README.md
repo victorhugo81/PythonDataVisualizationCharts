@@ -37,6 +37,7 @@ project/
 │   └── sales_data.csv    # Sales data file
 │
 ├── barchart.py   # barchart script
+├── linechart.py   # linechart script
 ├── piechart.py   # piechart script
 └── README.md     # This file
 ```
