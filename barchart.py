@@ -53,9 +53,12 @@ def main():
     plt.grid(axis="y", linestyle="--", alpha=0.7)
     plt.tight_layout()
 
+    # Make the figure smaller
+    plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
+
     # Save the figure to output folder
     OUTPUT_FILE = Path("output") / "sales_performance.png"
-    plt.savefig(OUTPUT_FILE, dpi=300, bbox_inches='tight')
+    plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')  # Lower DPI
     print(f"Chart saved to: {OUTPUT_FILE}")
 
     # Show chart
