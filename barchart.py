@@ -57,7 +57,7 @@ def main():
     plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
 
     # Save the figure to output folder
-    OUTPUT_FILE = Path("output") / "sales_performance.png"
+    OUTPUT_FILE = Path("output") / "barchart.png"
     plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')  # Lower DPI
     print(f"Chart saved to: {OUTPUT_FILE}")
 

@@ -47,9 +47,6 @@ def main():
     norm = Normalize(vmin=min(sizes), vmax=max(sizes))
     colors = cm.Blues(norm(sizes))
     
-    # Create figure
-    plt.figure(figsize=(10, 8))
-    
     # Create pie chart
     plt.pie(
         sizes,
@@ -69,7 +66,7 @@ def main():
     plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
     
     # Save the figure to output folder
-    OUTPUT_FILE = Path("output") / "sales_distribution.png"
+    OUTPUT_FILE = Path("output") / "piechart.png"
     plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')
     print(f"Chart saved to: {OUTPUT_FILE}")
     

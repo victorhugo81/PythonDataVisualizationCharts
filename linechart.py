@@ -26,9 +26,6 @@ def main():
     # Load data
     df = load_data()
     
-    # Create figure with specific size
-    plt.figure(figsize=(10, 6))
-    
     # Create line chart
     plt.plot(
         df['Month'],
@@ -57,7 +54,7 @@ def main():
     plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
 
     # Save the figure to output folder
-    OUTPUT_FILE = Path("output") / "sales_trend.png"
+    OUTPUT_FILE = Path("output") / "linechart.png"
     plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')
     print(f"Chart saved to: {OUTPUT_FILE}")
 
