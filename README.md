@@ -1,4 +1,4 @@
-# Charts
+# Python Charts
 
 ## Bar Charts
 This code project creates a bar chart displaying monthly sales performance with color-coded bars based on sales values. Bar charts are ideal for comparing values across categories, such as sales by region or product type. It clearly shows differences
@@ -37,7 +37,7 @@ project/
 │   └── sales_data.csv    # Sales data file
 │
 ├── barchart.py   # barchart script
-├── linechart.py   # linechart script
+├── linechart.py  # linechart script
 ├── piechart.py   # piechart script
 └── README.md     # This file
 ```
