@@ -24,8 +24,8 @@ def create_gauge_chart(value, max_value, title="Performance"):
     # Calculate percentage
     percentage = (value / max_value) * 100
     
-    # Create figure and axis
-    fig, ax = plt.subplots(figsize=(6, 4))
+    # Create figure and axis with smaller size
+    fig, ax = plt.subplots(figsize=(4, 3))
     ax.set_xlim(-1.2, 1.2)
     ax.set_ylim(-0.2, 1.3)
     ax.set_aspect('equal')
@@ -75,17 +75,17 @@ def create_gauge_chart(value, max_value, title="Performance"):
         y_text = text_radius * np.sin(angle_rad)
         
         ax.text(x_text, y_text, str(val), 
-                ha='center', va='center', fontsize=12, color='#333')
+                ha='center', va='center', fontsize=10, color='#333')
     
     # Add center value 
     ax.text(0, 0.2, f'{percentage:.1f}%', 
-            ha='center', va='center', fontsize=50, 
+            ha='center', va='center', fontsize=36, 
             fontweight='normal', color='#000')
     
     # Add title with spacing
     plt.title('Sales Distribution by Product', 
               pad=5, 
-              fontsize=14, 
+              fontsize=12, 
               fontweight='bold'
               )
     
@@ -108,9 +108,6 @@ def main():
     
     # Adjust layout
     plt.tight_layout()
-    
-    # Make the figure smaller
-    plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
     
     # Save the figure to output folder
     OUTPUT_FILE = Path("output") / "gaugechart.png"
