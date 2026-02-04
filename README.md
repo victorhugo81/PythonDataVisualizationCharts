@@ -6,10 +6,20 @@ between groups, making it useful for visualizing rankings, distributions, or cha
 
 ![Bar Chart](output/barchart.png)
 
+## Horizontal Bar Charts
+Horizontal bar charts are ideal when you need to display categorical data with long labels, many categories, or ranked items, as they enhance readability and make comparisons between categories easier.
+
+![Horizontal Bar Chart](output/hbarchart.png)
+
 ## Pie Charts
 A pie charts are ideal for showing how parts make up a whole. It's best used with a small number of categories to display percentage or proportional data, such as market share or budget breakdowns, where the total equals 100%.
 
 ![Pie Chart](output/piechart.png)
+
+## Donut Charts
+Donut charts are used to represent parts of a whole while improving clarity in data visualization and allowing more effective use of space for labels or additional information.
+
+![Donut Chart](output/donutchart.png)
 
 ## Line Charts
 A line chart is ideal for showing trends over time or continuous data. It helps visualize patterns, increases, or decreases across
@@ -22,6 +32,16 @@ Scatter plots charts are ideal for showing relationships or correlations between
 
 ![Scatter Plot Charts](output/scatterplotchart.png)
 
+## Gauge Charts
+Gauge charts are used to quickly visualize a single measure against a scale, making them ideal for tracking performance, KPIs, or progress toward goals.
+
+![Gauge Charts](output/gaugechart.png)
+
+
+## U.S.A. Map
+Visualizing database data on a map helps reveal geographic patterns, trends, and insights that are difficult to see in raw tables. The right visualization type depends on your data structure and the story you want to tell.
+
+![USA Charts](output/us_population_map.png)
 
 
 ## Features

@@ -1,4 +1,8 @@
+# scatterplotchart.py
+"""Scatter Plot Chart."""
+
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 from pathlib import Path
 
@@ -36,26 +40,37 @@ def main():
     
     # Create figure and axis explicitly
     fig, ax = plt.subplots(figsize=(6, 4))
+
+    # Single color update number for diffent color.
+    pastel_colors = sns.color_palette("pastel")[2]  
     
     # Create scatter plot
-    ax.scatter(df['Month'], df['Sales'], color='blue', alpha=0.7)
+    ax.scatter(df['Month'], 
+               df['Sales'], 
+               color=pastel_colors, 
+               alpha=1.0, 
+               s=100  # Size of points
+               )
     
     # Add title and axis labels
     ax.set_title('Sales Scatter Plot', pad=20)
     ax.set_xlabel('Month')
     ax.set_ylabel('Sales')
-    
     # Add grid for better readability
-    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.grid(True, linestyle='-', alpha=0.3)
     
+    # Remove outside border (spines)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+
     # Rotate x-axis labels if they're text to prevent overlap
     plt.xticks(rotation=45, ha='right')
     
-    # Ensure output directory exists
+    # Save the figure to output folder
     OUTPUT_FILE = Path("output") / "scatterplotchart.png"
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    
-    # Save the figure
     plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')
     print(f"Chart saved to: {OUTPUT_FILE}")
     

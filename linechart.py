@@ -1,4 +1,8 @@
+# linechart.py
+"""Line Chart."""
+
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 from pathlib import Path
 
@@ -25,36 +29,45 @@ def load_data():
 def main():
     # Load data
     df = load_data()
+        
+    # Single color update number for diffent color.
+    marker_colors = sns.color_palette("pastel")[1]  
+    pastel_colors = sns.color_palette("pastel")[2]  
     
     # Create line chart
     plt.plot(
         df['Month'],
         df['Sales'],
         marker='o',
-        linestyle='--',
-        color='blue',
+        markerfacecolor=marker_colors,
+        linestyle='-',
+        color=pastel_colors,
         linewidth=2
     )
 
     # Add title and axis labels
-    plt.title('Monthly Sales Trend', fontsize=16, pad=20)
-    plt.xlabel('Month', fontsize=12)
-    plt.ylabel('Sales', fontsize=12)
-
+    plt.title('Monthly Sales Trend', pad=10, fontsize=14, fontweight='bold')
+    plt.xlabel('Month', fontweight='bold')
+    plt.ylabel('Sales', fontweight='bold')
+    plt.grid(True, linestyle='-', alpha=0.3)
     # Rotate x-axis labels for better readability
     plt.xticks(rotation=45, ha='right')
-
-    # Add grid
-    plt.grid(True, linestyle='--', alpha=0.7)
-
     # Adjust layout to prevent label cutoff
     plt.tight_layout()
+    
+    # Remove outside border (spines)
+    ax = plt.gca()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
     
     # Make the figure smaller
     plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
 
     # Save the figure to output folder
     OUTPUT_FILE = Path("output") / "linechart.png"
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')
     print(f"Chart saved to: {OUTPUT_FILE}")
 

@@ -1,11 +1,10 @@
-# barchart.py
-"""Vertical Bar Chart."""
+# hbarchart.py
+"""Horizontal Bar Chart."""
 
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from pathlib import Path
-
 
 def load_data():
     """Load data from CSV file."""
@@ -18,7 +17,6 @@ def load_data():
     # Load and return the dataframe
     df = pd.read_csv(CSV_FILE)
     return df
-
 
 def main():
     # Load data
@@ -35,43 +33,43 @@ def main():
     # Multiple colors for each bar
     pastel_colors = sns.color_palette("pastel", n_colors=len(df))
     
-    # Single color update number for diffent color.
-    # pastel_colors = sns.color_palette("pastel")[2]  
+    # Single color update number for different color.
+    # pastel_colors = sns.color_palette("pastel")[2]
     
-    # Plot
+    # Plot - CHANGED TO HORIZONTAL
     plt.figure(figsize=(10, 5))
-    plt.bar(
+    plt.barh(  # Changed from plt.bar to plt.barh
         df["Month"],
         df["Sales"],
         color=pastel_colors,
         edgecolor="gray",
         linewidth=0.0,
-        width=0.8
+        height=0.8  # Changed from width to height
     )
     
     # Chart Settings
     plt.title("Monthly Sales Performance", pad=10, fontsize=14, fontweight='bold')
-    plt.xlabel("Month", fontweight='bold')
-    plt.ylabel("Sales", fontweight='bold')
-    plt.grid(axis="y", linestyle="-", alpha=0.3)
+    plt.xlabel("Sales", fontweight='bold')  # Swapped xlabel
+    plt.ylabel("Month", fontweight='bold')  # Swapped ylabel
+    plt.grid(axis="x", linestyle="-", alpha=0.3)  # Changed from axis="y" to axis="x"
     plt.tight_layout()
-
+    
     # Remove outside border (spines)
     ax = plt.gca()
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
     ax.spines['left'].set_visible(False)
-
+       
     # Make the figure smaller
     plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
-
+    
     # Save the figure to output folder
-    OUTPUT_FILE = Path("output") / "barchart.png"
+    OUTPUT_FILE = Path("output") / "hbarchart.png"
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')  # Lower DPI
     print(f"Chart saved to: {OUTPUT_FILE}")
-
+    
     # Show chart
     plt.show()
 
