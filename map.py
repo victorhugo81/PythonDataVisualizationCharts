@@ -41,8 +41,8 @@ def main():
     # Merge with population data
     usa = usa.merge(df, left_on='postal', right_on='Code', how='left')
     
-    # Create figure
-    fig, ax = plt.subplots(figsize=(15, 10))
+    # Create figure with smaller size
+    fig, ax = plt.subplots(figsize=(7, 4))
     
     # Plot the map (continental US only)
     usa.plot(column='Population', 
@@ -53,8 +53,8 @@ def main():
              linewidth=0.5,
              missing_kwds={'color': '#eaeaea'})
     
-    # Add title
-    ax.set_title('U.S. States by Population (Continental US)', fontsize=20, pad=20)
+    # Add title with smaller font
+    ax.set_title('U.S. States by Population (Continental US)', fontsize=14, pad=15)
     ax.axis('off')
     
     # Ensure output directory exists
@@ -62,7 +62,7 @@ def main():
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     
     # Save as PNG
-    plt.savefig(OUTPUT_FILE, dpi=300, bbox_inches='tight', facecolor='white')
+    plt.savefig(OUTPUT_FILE, dpi=150, bbox_inches='tight', facecolor='white')
     print(f"Map saved to: {OUTPUT_FILE}")
     
     # Clean up
@@ -70,5 +70,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
