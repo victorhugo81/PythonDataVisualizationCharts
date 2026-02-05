@@ -6,6 +6,12 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from pathlib import Path
 
+# ============================================
+# CONFIGURATION - Change mode here
+# ============================================
+MODE = 'dark'  # Options: 'dark' or 'light'
+# ============================================
+
 
 def load_data():
     """Load data from CSV file."""
@@ -43,40 +49,57 @@ def main():
     # Extract labels and values
     labels = df['Product']
     sizes = df['Sales']
-       
-    # Multiple colors for each bar
-    pastel_colors = sns.color_palette("pastel", n_colors=len(df))
     
-    # Single color update number for diffent color.
-    # pastel_colors = sns.color_palette("pastel")[2]  
+    # Configure style based on MODE
+    if MODE == 'dark':
+        plt.style.use('dark_background')
+        bg_color = '#1e1e1e'
+        text_color = 'white'
+        colors = sns.color_palette("bright", n_colors=len(df))
+    else:  # light mode
+        plt.style.use('default')
+        bg_color = 'white'
+        text_color = 'black'
+        colors = sns.color_palette("pastel", n_colors=len(df))
+    
+    # Create figure with appropriate background
+    fig, ax = plt.subplots(facecolor=bg_color)
+    ax.set_facecolor(bg_color)
     
     # Create pie chart
-    plt.pie(
+    wedges, texts, autotexts = ax.pie(
         sizes,
         labels=labels,
-        colors=pastel_colors,
+        colors=colors,
         autopct='%1.1f%%',
-        startangle=140
+        startangle=140,
+        textprops={'color': text_color, 'fontsize': 10}
     )
     
+    # Make percentage text bold and slightly larger
+    for autotext in autotexts:
+        autotext.set_color(text_color)
+        autotext.set_fontweight('bold')
+        autotext.set_fontsize(9)
+    
     # Add title with spacing
-    plt.title('Sales Distribution by Product', 
-              pad=10, 
-              fontsize=14, 
-              fontweight='bold'
-              )
+    ax.set_title('Sales Distribution by Product', 
+                 pad=20, 
+                 fontsize=14, 
+                 fontweight='bold',
+                 color=text_color)
     
     # Make sure the pie chart stays circular
-    plt.axis('equal')
+    ax.axis('equal')
 
     # Make the figure smaller
-    plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
+    fig.set_size_inches(6, 4)
     
     # Save the figure to output folder
-    OUTPUT_FILE = Path("output") / "piechart.png"
+    OUTPUT_FILE = Path("output") / f"piechart_{MODE}.png"
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')
-    print(f"Chart saved to: {OUTPUT_FILE}")
+    plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight', facecolor=bg_color)
+    print(f"Chart saved to: {OUTPUT_FILE} ({MODE} mode)")
     
     # Show the plot
     plt.show()

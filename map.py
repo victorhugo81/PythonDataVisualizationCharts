@@ -3,6 +3,13 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 from pathlib import Path
 
+# ============================================
+# CONFIGURATION - Change mode here
+# ============================================
+MODE = 'light'  # Options: 'dark' or 'light'
+# ============================================
+
+
 def load_data():
     """Load data from CSV file."""
     CSV_FILE = Path("data") / "states.csv"
@@ -41,29 +48,57 @@ def main():
     # Merge with population data
     usa = usa.merge(df, left_on='postal', right_on='Code', how='left')
     
-    # Create figure with smaller size
-    fig, ax = plt.subplots(figsize=(7, 4))
+    # Configure style based on MODE
+    if MODE == 'dark':
+        plt.style.use('dark_background')
+        bg_color = '#1e1e1e'
+        text_color = 'white'
+        edge_color = '#555555'
+        missing_color = '#2a2a2a'
+        cmap = 'Blues'  # Blues works well on dark backgrounds
+    else:  # light mode
+        plt.style.use('default')
+        bg_color = 'white'
+        text_color = 'black'
+        edge_color = 'black'
+        missing_color = '#eaeaea'
+        cmap = 'Blues'
+    
+    # Create figure with smaller size and appropriate background
+    fig, ax = plt.subplots(figsize=(7, 4), facecolor=bg_color)
+    ax.set_facecolor(bg_color)
     
     # Plot the map (continental US only)
     usa.plot(column='Population', 
              ax=ax, 
-             cmap='Blues',
+             cmap=cmap,
              legend=True,
-             edgecolor='black',
+             edgecolor=edge_color,
              linewidth=0.5,
-             missing_kwds={'color': '#eaeaea'})
+             missing_kwds={'color': missing_color})
     
     # Add title with smaller font
-    ax.set_title('U.S. States by Population (Continental US)', fontsize=14, pad=15)
+    ax.set_title('U.S. States by Population (Continental US)', 
+                 fontsize=14, 
+                 pad=15,
+                 color=text_color)
     ax.axis('off')
     
+    # Style the colorbar for dark mode
+    if MODE == 'dark':
+        # Get the colorbar and style it
+        cbar = fig.axes[-1]  # The colorbar is the last axis
+        cbar.tick_params(colors=text_color)
+        # Style colorbar labels
+        plt.setp(plt.getp(cbar, 'yticklabels'), color=text_color)
+    
     # Ensure output directory exists
-    OUTPUT_FILE = Path("output") / "us_population_map.png"
+    OUTPUT_FILE = Path("output") / f"us_population_map_{MODE}.png"
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     
     # Save as PNG
-    plt.savefig(OUTPUT_FILE, dpi=150, bbox_inches='tight', facecolor='white')
-    print(f"Map saved to: {OUTPUT_FILE}")
+    plt.savefig(OUTPUT_FILE, dpi=150, bbox_inches='tight', facecolor=bg_color)
+    print(f"Map saved to: {OUTPUT_FILE} ({MODE} mode)")
     
     # Clean up
     plt.close(fig)

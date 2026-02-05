@@ -6,6 +6,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from pathlib import Path
 
+# ============================================
+# CONFIGURATION - Change mode here
+# ============================================
+MODE = 'light'  # Options: 'dark' or 'light'
+# ============================================
+
+
 def load_data():
     """Load data from CSV file."""
     CSV_FILE = Path("data") / "monthly_sales.csv"
@@ -30,45 +37,64 @@ def main():
     df["Month"] = pd.Categorical(df["Month"], categories=month_order, ordered=True)
     df = df.sort_values("Month")
     
-    # Multiple colors for each bar
-    pastel_colors = sns.color_palette("pastel", n_colors=len(df))
+    # Configure style based on MODE
+    if MODE == 'dark':
+        plt.style.use('dark_background')
+        bg_color = '#1e1e1e'
+        text_color = 'white'
+        grid_color = 'gray'
+        edge_color = '#555555'
+        bar_colors = sns.color_palette("bright", n_colors=len(df))
+    else:  # light mode
+        plt.style.use('default')
+        bg_color = 'white'
+        text_color = 'black'
+        grid_color = 'gray'
+        edge_color = 'gray'
+        bar_colors = sns.color_palette("pastel", n_colors=len(df))
     
-    # Single color update number for different color.
-    # pastel_colors = sns.color_palette("pastel")[2]
+    # Create figure with appropriate background
+    fig, ax = plt.subplots(figsize=(6, 4), facecolor=bg_color)
+    ax.set_facecolor(bg_color)
     
-    # Plot - CHANGED TO HORIZONTAL
-    plt.figure(figsize=(10, 5))
-    plt.barh(  # Changed from plt.bar to plt.barh
+    # Plot - HORIZONTAL BAR CHART
+    ax.barh(
         df["Month"],
         df["Sales"],
-        color=pastel_colors,
-        edgecolor="gray",
+        color=bar_colors,
+        edgecolor=edge_color,
         linewidth=0.0,
-        height=0.8  # Changed from width to height
+        height=0.8
     )
     
     # Chart Settings
-    plt.title("Monthly Sales Performance", pad=10, fontsize=14, fontweight='bold')
-    plt.xlabel("Sales", fontweight='bold')  # Swapped xlabel
-    plt.ylabel("Month", fontweight='bold')  # Swapped ylabel
-    plt.grid(axis="x", linestyle="-", alpha=0.3)  # Changed from axis="y" to axis="x"
+    ax.set_title("Monthly Sales Performance", 
+                 pad=10, 
+                 fontsize=14, 
+                 fontweight='bold',
+                 color=text_color)
+    ax.set_xlabel("Sales", fontweight='bold', color=text_color)
+    ax.set_ylabel("Month", fontweight='bold', color=text_color)
+    
+    # Set tick colors
+    ax.tick_params(colors=text_color, which='both')
+    
+    # Add grid
+    ax.grid(axis="x", linestyle="-", alpha=0.3, color=grid_color)
+    
     plt.tight_layout()
     
     # Remove outside border (spines)
-    ax = plt.gca()
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
     ax.spines['left'].set_visible(False)
-       
-    # Make the figure smaller
-    plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
     
     # Save the figure to output folder
-    OUTPUT_FILE = Path("output") / "hbarchart.png"
+    OUTPUT_FILE = Path("output") / f"hbarchart_{MODE}.png"
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')  # Lower DPI
-    print(f"Chart saved to: {OUTPUT_FILE}")
+    plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight', facecolor=bg_color)
+    print(f"Chart saved to: {OUTPUT_FILE} ({MODE} mode)")
     
     # Show chart
     plt.show()

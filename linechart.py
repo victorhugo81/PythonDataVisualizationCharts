@@ -6,6 +6,12 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from pathlib import Path
 
+# ============================================
+# CONFIGURATION - Change mode here
+# ============================================
+MODE = 'light'  # Options: 'dark' or 'light'
+# ============================================
+
 
 def load_data():
     """Load data from CSV file."""
@@ -29,47 +35,70 @@ def load_data():
 def main():
     # Load data
     df = load_data()
-        
-    # Single color update number for diffent color.
-    marker_colors = sns.color_palette("pastel")[1]  
-    pastel_colors = sns.color_palette("pastel")[2]  
+    
+    # Configure style based on MODE
+    if MODE == 'dark':
+        plt.style.use('dark_background')
+        bg_color = '#1e1e1e'
+        text_color = 'white'
+        grid_color = 'gray'
+        marker_color = sns.color_palette("bright")[1]
+        line_color = sns.color_palette("bright")[2]
+    else:  # light mode
+        plt.style.use('default')
+        bg_color = 'white'
+        text_color = 'black'
+        grid_color = 'gray'
+        marker_color = sns.color_palette("pastel")[1]
+        line_color = sns.color_palette("pastel")[2]
+    
+    # Create figure with appropriate background
+    fig, ax = plt.subplots(figsize=(6, 4), facecolor=bg_color)
+    ax.set_facecolor(bg_color)
     
     # Create line chart
-    plt.plot(
+    ax.plot(
         df['Month'],
         df['Sales'],
         marker='o',
-        markerfacecolor=marker_colors,
+        markerfacecolor=marker_color,
         linestyle='-',
-        color=pastel_colors,
+        color=line_color,
         linewidth=2
     )
 
     # Add title and axis labels
-    plt.title('Monthly Sales Trend', pad=10, fontsize=14, fontweight='bold')
-    plt.xlabel('Month', fontweight='bold')
-    plt.ylabel('Sales', fontweight='bold')
-    plt.grid(True, linestyle='-', alpha=0.3)
+    ax.set_title('Monthly Sales Trend', 
+                 pad=10, 
+                 fontsize=14, 
+                 fontweight='bold',
+                 color=text_color)
+    ax.set_xlabel('Month', fontweight='bold', color=text_color)
+    ax.set_ylabel('Sales', fontweight='bold', color=text_color)
+    
+    # Set tick colors
+    ax.tick_params(colors=text_color, which='both')
+    
+    # Add grid
+    ax.grid(True, linestyle='-', alpha=0.3, color=grid_color)
+    
     # Rotate x-axis labels for better readability
     plt.xticks(rotation=45, ha='right')
+    
     # Adjust layout to prevent label cutoff
     plt.tight_layout()
     
     # Remove outside border (spines)
-    ax = plt.gca()
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
     ax.spines['left'].set_visible(False)
-    
-    # Make the figure smaller
-    plt.gcf().set_size_inches(6, 4)  # Smaller dimensions
 
     # Save the figure to output folder
-    OUTPUT_FILE = Path("output") / "linechart.png"
+    OUTPUT_FILE = Path("output") / f"linechart_{MODE}.png"
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight')
-    print(f"Chart saved to: {OUTPUT_FILE}")
+    plt.savefig(OUTPUT_FILE, dpi=72, bbox_inches='tight', facecolor=bg_color)
+    print(f"Chart saved to: {OUTPUT_FILE} ({MODE} mode)")
 
     # Show chart
     plt.show()
