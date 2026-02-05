@@ -66,11 +66,20 @@ pathlib
 project/
 │
 ├── data/
-│   └── sales_data.csv    # Sales data file
+│   └── monthly_sales.csv    # Montly sales data
+│   └── product_sales.csv    # Product sales data
+│   └── state.csv            # Map data
+│
+├── output/
+│   └── output.png      # Output image file
 │
 ├── barchart.py         # barchart script
+├── donutchart.py       # donutchart script
+├── gaugechart.py       # gaugechart script
+├── hbarchart.py        # hbarchart script
 ├── linechart.py        # linechart script
+├── map.py              # map script
 ├── piechart.py         # piechart script
 ├── scatterplotchart.py # scatterplotchart script
-└── README.md     # This file
+└── README.md           # This file
 ```
